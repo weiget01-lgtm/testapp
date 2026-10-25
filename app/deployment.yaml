@@ -4,6 +4,7 @@ metadata:
   name: my-app
   labels:
     app: my-app
+    brand: test
 spec:
   replicas: 2
   selector:
