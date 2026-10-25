@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/akhil27051999/argocd-gitops-demo-project
+    repoURL: https://github.com/weiget01-lgtm/testapp
     targetRevision: main
-    path: manifests/overlays/dev
+    path: Multi-Env-GitOps-With-ArgoCD/manifests/overlays/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
