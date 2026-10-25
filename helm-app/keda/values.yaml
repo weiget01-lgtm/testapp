@@ -189,7 +189,7 @@ operator:
 
 metricsServer:
   # -- Enable KEDA metrics server.
-  enabled: false
+  enabled: true
   # -- Enable registering KEDA metrics server as external metrics API resource.
   registerAPIService: true
   # -- Additional Metrics Adapter container environment variables
