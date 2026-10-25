@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-app-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/weiget01-lgtm/testapp
+    targetRevision: main
+    path: Multi-Env-GitOps-With-ArgoCD/manifests/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
