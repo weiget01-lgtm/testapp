@@ -189,7 +189,7 @@ operator:
 
 metricsServer:
   # -- Enable KEDA metrics server.
-  enabled: true
+  enabled: false
   # -- Enable registering KEDA metrics server as external metrics API resource.
   registerAPIService: true
   # -- Additional Metrics Adapter container environment variables
@@ -634,8 +634,7 @@ topologySpreadConstraints:
   # -- [Pod Topology Constraints] of KEDA operator pod
   operator: []
   # -- [Pod Topology Constraints] of KEDA metrics apiserver pod
-  metricsServer: 
-    enabled: false
+  metricsServer:  []
   # -- [Pod Topology Constraints] of KEDA admission webhooks pod
   webhooks: []
 
