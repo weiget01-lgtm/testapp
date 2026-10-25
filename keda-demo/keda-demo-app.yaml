@@ -1,0 +1,42 @@
+# 修改后的 demo-app.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keda-demo-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keda-demo-app
+  template:
+    metadata:
+      labels:
+        app: keda-demo-app
+    spec:
+      containers:
+      # 原 Nginx 容器
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+
+      # 新增：Exporter Sidecar
+      - name: nginx-exporter
+        image: nginx/nginx-prometheus-exporter:1.5.1
+        args:
+          - "-nginx.scrape-uri=http://localhost/status"
+        ports:
+          - containerPort: 9113
+            name: metrics
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+
+
+for i in {1..30}; do curl -s http://localhost:8999 > /dev/null; sleep 0.1; done

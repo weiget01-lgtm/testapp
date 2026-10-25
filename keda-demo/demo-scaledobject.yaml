@@ -1,0 +1,26 @@
+# demo-scaledobject.yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: keda-demo-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: keda-demo-app
+  minReplicaCount: 1          # 核心：允许缩到 0
+  maxReplicaCount: 5
+  cooldownPeriod: 60          # 无指标后等待 60 秒再缩容
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090   # 替换为你实际的 Prometheus 地址
+      metricName: nginx_requests_total
+      query: sum(rate(nginx_http_requests_total[2m]))               # 替换为实际存在的指标
+      threshold: '5'            # 请求速率超过 5 时开始扩容
+      # activationThreshold: '1'  # 速率超过 1 时激活（从 0 到 1）
+  # - type: cron
+  #   metadata:
+  #     timezone: Asia/Shanghai
+  #     start: "0 * * * *" # 每个整点拉起
+  #     end: "10 * * * *"  # 每个整点过10分钟缩容
+  #     desiredReplicas: "1"

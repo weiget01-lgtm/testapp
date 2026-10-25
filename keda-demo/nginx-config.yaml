@@ -1,0 +1,23 @@
+# nginx-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: default
+data:
+  default.conf: |
+    server {
+        listen       80;
+        server_name  _;
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+        # 关键：开启状态端点
+        location /status {
+            stub_status on;
+            access_log off;
+            allow 127.0.0.1;   # 仅允许本地访问
+            deny all;
+        }
+    }

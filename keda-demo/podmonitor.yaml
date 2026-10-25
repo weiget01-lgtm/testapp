@@ -1,0 +1,19 @@
+# podmonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: keda-demo-app-monitor
+  namespace: default
+  labels:
+    # ⚠️ 关键：这个标签必须匹配你 Prometheus 实例的 podMonitorSelector
+    # 如果是用 kube-prometheus-stack Helm 部署的，默认通常是：
+    release: prometheus 
+spec:
+  # 选择带有 app: keda-demo-app 标签的 Pod
+  selector:
+    matchLabels:
+      app: keda-demo-app
+  podMetricsEndpoints:
+    - port: metrics     # 必须与 Deployment 中 Sidecar 容器的 port name 一致
+      path: /metrics    # Exporter 默认路径
+      interval: 15s     # 抓取间隔
