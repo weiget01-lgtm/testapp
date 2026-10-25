@@ -1,0 +1,47 @@
+# 05-prometheusrule.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: k8s-event-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: k8s-events
+      rules:
+        - alert: K8sFailedScheduling
+          expr: |
+            increase(event_exporter_events_total{reason="FailedScheduling", type="Warning"}[5m]) > 0
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod 调度失败 ({{ $labels.namespace }})"
+            description: |
+              Namespace: {{ $labels.namespace }}
+              Object: {{ $labels.involved_object_kind }}/{{ $labels.involved_object_name }}
+              Reason: {{ $labels.reason }}
+
+        - alert: K8sOOMKilled
+          expr: |
+            increase(event_exporter_events_total{reason="OOMKilled", type="Warning"}[5m]) > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: "容器 OOMKilled ({{ $labels.namespace }}/{{ $labels.involved_object_name }})"
+            description: "容器因内存超限被杀死，请检查资源配置或内存泄漏。"
+        - alert: EventExporterSendErrors
+          expr: rate(kubernetes_event_exporter_send_event_errors[5m]) > 1
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Event Exporter 发送事件持续失败"
+
+        - alert: EventExporterWatchErrors
+          expr: rate(kubernetes_event_exporter_watch_errors[1h]) > 0.1
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Event Exporter 监听 Kubernetes API 出现异常"
