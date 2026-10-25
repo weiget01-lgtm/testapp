@@ -16,7 +16,7 @@ config:
   receivers:
     # 1. Metrics Receiver: 将事件内容转化为 Prometheus 指标
     - name: "metrics-receiver"
-      metrics: {} 
+      stdout: {} 
 
   route:
     routes:
