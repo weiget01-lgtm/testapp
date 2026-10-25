@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: demo-webhook
+  namespace: monitoring
+  labels:
+    alertmanagerConfig: demo
+spec:
+  route:
+    receiver: demo-webhook
+    matchers:
+      - name: alertname
+        value: DemoAlwaysFiring
+    groupWait: 10s
+    repeatInterval: 1m
+  receivers:
+    - name: demo-webhook
+      webhookConfigs:
+        - url: https://webhook.site/56022b68-be69-4f76-9dee-bf182fe34c41

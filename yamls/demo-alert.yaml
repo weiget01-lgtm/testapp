@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: demo-alert
+  namespace: monitoring
+  labels:
+    release: prometheus   # 必须和你的 Helm release 名一致,否则不会被加载
+spec:
+  groups:
+    - name: demo.rules
+      rules:
+        - alert: DemoAlwaysFiring
+          expr: vector(1)        # 恒为真,一定触发
+          for: 10s
+          labels:
+            severity: warning
+            namespace: monitoring
+          annotations:
+            summary: "这是一条测试告警"
