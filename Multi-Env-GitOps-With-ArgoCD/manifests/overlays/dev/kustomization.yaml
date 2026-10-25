@@ -4,3 +4,5 @@ namePrefix: dev-
 commonLabels:
   env: dev
 
+patches:
+  - path: patch-replicas.yaml

@@ -4,3 +4,6 @@ namePrefix: prod-
 commonLabels:
   env: prod
 
+patches:
+  - path: patch-replicas.yaml
+  - path: patch-resources.yaml
