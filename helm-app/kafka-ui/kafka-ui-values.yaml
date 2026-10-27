@@ -2,7 +2,7 @@ yamlApplicationConfig:
   kafka:
     clusters:
       - name: local
-        bootstrapServers: kafka.kafka.svc.cluster.local:9092
+        bootstrapServers: my-cluster-kafka-bootstrap:9092
         auth:
           type: disabled
   management:
