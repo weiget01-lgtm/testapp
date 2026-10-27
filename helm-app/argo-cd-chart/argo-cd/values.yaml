@@ -983,7 +983,7 @@ controller:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 5
 
   ## Liveness probe for the application controller.
   ## Disabled by default, matching upstream: Argo CD removed this probe deliberately
@@ -1005,7 +1005,7 @@ controller:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 5
+    timeoutSeconds: 10
 
   ## Startup probe for application controller (optional)
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
@@ -1454,7 +1454,7 @@ dex:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 10
 
   ## Startup probe for Dex server (optional)
   ## Supported from Dex >= 2.28.0
